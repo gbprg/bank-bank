@@ -20,54 +20,15 @@ git clone https://github.com/seu-usuario/transfer-bank.git
 cd transfer-bank
 
 # Construa e inicie os containers
-docker-compose up --build
+docker compose up -d --build
 </code>
 </pre>
 
 <h3>2. Desenvolvimento Local 💻</h3>
 
 <h4>Configuração do Banco de Dados</h4>
-<ul>
-  <li>Instale o PostgreSQL</li>
-  <li>Crie o banco de dados <code>transfer_bank</code></li>
-  <li>Configure a conexão em <code>appsettings.json</code></li>
-</ul>
 
 ## 🔧 Configuração
-
-<h4>Variáveis de Ambiente</h4>
-<table>
-  <thead>
-    <tr>
-      <th>Variável</th>
-      <th>Descrição</th>
-      <th>Valor Padrão</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>DefaultConnection</td>
-      <td>String de conexão do banco</td>
-      <td><code>Host=localhost;Database=transfer_bank</code></td>
-    </tr>
-    <tr>
-      <td>Jwt:Key</td>
-      <td>Chave de autenticação JWT</td>
-      <td><code>ChaveSuperSeguraMuitoGrande1234567890!</code></td>
-    </tr>
-    <tr>
-      <td>Jwt:Issuer</td>
-      <td>Chave de autenticação JWT</td>
-      <td><code>TransferBankApp</code></td>
-    </tr>
-    <tr>
-      <td>Jwt:Audience</td>
-      <td>Chave de autenticação JWT</td>
-      <td><code>TransferBankUsers</code></td>
-    </tr>
-  </tbody>
-</table>
-
 <pre>
 <code>
 # Restaure os pacotes
@@ -101,7 +62,7 @@ dotnet run
 ### 🛠️ Configuração
 Para testar as rotas no Postman, lembre-se de configurar o **Bearer Token** no cabeçalho de **Authorization** para rotas protegidas. O token é gerado ao realizar o login.  
 
----
+----
 
 ### TransferBank/User
 
@@ -117,6 +78,8 @@ Registra um novo usuário.
     "password": "123123teste@"
 }
 ```
+----
+
 🔹 POST - Login
 Realiza o login do usuário e retorna um token.
 **URL:**
@@ -128,6 +91,8 @@ Realiza o login do usuário e retorna um token.
     "password": "123123teste@"
 }
 ```
+----
+
 ```json
 🔹 DELETE - Delete
 Exclui um usuário pelo ID.
@@ -152,6 +117,8 @@ http://localhost:5078/api/deposit
     "paymentMethod": "debitcard"
 }
 ```
+----
+
 🔹 POST - Transfer
 Realiza uma transferência entre usuários.
 **URL:**
@@ -165,6 +132,8 @@ http://localhost:5078/api/transfer
     "paymentMethod": "pix"
 }
 ```
+----
+
 ```json
 🔹 GET - History
 Retorna o histórico de transações de um usuário com paginação.
@@ -173,12 +142,16 @@ http://localhost:5078/api/history?userId={id}&page={page}&pageSize={pageSize}
 Exemplo:
 http://localhost:5078/api/history?userId=101f2908-b83a-402c-939e-3a51269d3827&page=1&pageSize=10
 
+----
+
 🔹 POST - Reverse
 Reverte uma transação pelo ID.
 URL:
 http://localhost:5078/api/reverse/?transactionId={id}
 Exemplo:
 http://localhost:5078/api/reverse/?transactionId=0193adbf-e2ae-7043-aea2-1bbb1277cafa
+
+----
 
 🔹 GET - Export
 Exporta o histórico de transações com filtros.
