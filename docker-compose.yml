@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  webmvc:
+    container_name: webmvc
+    image: webmvc/csharp:1.0
+    build: .
+    ports:
+      - "8000:80"
+    environment:
+      DefaultConnection: "Host=db;Database=transfer_bank;Username=postgres;Password=postgres"
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "transfer_bank"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

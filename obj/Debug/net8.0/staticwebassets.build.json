@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "xgnj3QJWX8HovdnhVN5Crcz2XFUA+pOfN6QkQ5DsuCk=",
+  "Source": "transfer-bank",
+  "BasePath": "_content/transfer-bank",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

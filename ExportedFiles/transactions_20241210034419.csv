@@ -1,0 +1,8 @@
+Id,Tipo de pagamento,Metodo de pagamento,Criado em,É Revertido,Nome do remetente,Email do remetente,Nome do receptor,Email do receptor,Valor
+"7bea9fe9-aeb1-4e4f-8ad0-46aeea8474e1","Transfer","Pix","2024-12-10 03:01:07","Não","gordao","gordao@gmail.com","gabriel","gabriel@gmail.com","R$ 5,00"
+"7b20db0b-cacc-431a-9205-9d6dea0fb786","Transfer","Pix","2024-12-10 02:46:47","Não","gordao","gordao@gmail.com","gabriel","gabriel@gmail.com","R$ 150,00"
+"0193a810-888e-7036-8b33-af03ea1116d9","Transfer","Pix","2024-12-08 20:57:56","Não","gabriel","gabriel@gmail.com","carol","carol@gmail.com","R$ 18,00"
+"0193a2cd-98d4-7dd9-bb06-c8059e140cc0","Transfer","Reversal","2024-12-07 20:26:43","Não","gabriel","gabriel@gmail.com","joao","joao@gmail.com","R$ 10,00"
+"0193a2ba-8528-728a-b86f-b4f270ea0090","Transfer","Pix","2024-12-07 20:05:53","Sim","joao","joao@gmail.com","gabriel","gabriel@gmail.com","R$ 10,00"
+"0193a2ba-3837-719a-808a-06ebd32b8740","Transfer","Pix","2024-12-07 20:05:33","Não","joao","joao@gmail.com","gabriel","gabriel@gmail.com","R$ 50,00"
+"01939e15-070b-7176-bd75-18cb874c7795","Deposit","Cash","2024-12-06 22:26:38","Não","gabriel","gabriel@gmail.com","gabriel","gabriel@gmail.com","R$ 150,00"
