@@ -2,6 +2,7 @@ using static transfer_bank.helpers.Enums;
 
 namespace transfer_bank.Models
 {
+    // Representa uma resposta de transação, o que vai ser retornado ao usuário
     public class TransactionResponse
     {
         public Guid Id { get; set; }

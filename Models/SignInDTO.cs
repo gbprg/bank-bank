@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace transfer_bank.Models
 {
+    // Representa os dados de login de um usuário
     public class SignInDTO
     {
         [Required(ErrorMessage = "O campo Email é obrigatório")]

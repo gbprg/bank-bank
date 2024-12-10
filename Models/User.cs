@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace transfer_bank.Models
 {
+  // Representa um usuário da aplicação
   public class User
   {
     public Guid Id { get; set; }

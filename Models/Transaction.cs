@@ -3,6 +3,7 @@ using static transfer_bank.helpers.Enums;
 
 namespace transfer_bank.Models
 {
+    // Representa uma transação financeira
     public class Transaction
     {
         [Required(ErrorMessage = "O ID do usuário é obrigatório.")]

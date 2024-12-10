@@ -3,6 +3,7 @@ using transfer_bank.Helpers;
 
 namespace transfer_bank.Middleware;
 
+// Middleware para interceptar exceções e gerar respostas apropriadas
 public class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;
@@ -40,7 +41,7 @@ public class ExceptionHandlingMiddleware
             await HandleGenericExceptionAsync(context, ex);
         }
     }
-
+    // Método auxiliar para gerar a resposta de erro
     private static Task HandleValidationExceptionAsync(HttpContext context, ValidationException ex)
     {
         context.Response.ContentType = "application/json";

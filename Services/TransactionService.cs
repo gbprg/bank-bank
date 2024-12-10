@@ -23,6 +23,7 @@ namespace transfer_bank.Services
             _logger = logger;
         }
 
+        // Processa um depósito na conta de um usuário.
         public async Task<TransactionResponse> DepositAsync(DepositDTO depositDto)
         {
             try
@@ -30,6 +31,7 @@ namespace transfer_bank.Services
                 if (depositDto == null)
                     throw new DepositException("Informações de depósito não podem ser nulas");
 
+                // Obtém o usuário associado ao depósito.
                 var user = await _context.Users
                     .FirstOrDefaultAsync(u => u.Id == depositDto.UserId);
 
@@ -41,6 +43,7 @@ namespace transfer_bank.Services
 
                 user.Balance += depositDto.Amount;
 
+                // Cria a transação de depósito.
                 var transaction = new Transaction()
                 {
                     SenderId = depositDto.UserId,
@@ -54,6 +57,7 @@ namespace transfer_bank.Services
                 _context.Transactions.Add(transaction);
                 await _context.SaveChangesAsync();
 
+                // Cria a resposta com os detalhes da transação.
                 var transactionResponse = new TransactionResponse()
                 {
                     Id = transaction.Id,
@@ -82,10 +86,12 @@ namespace transfer_bank.Services
             }
         }
 
+        // Processa uma transferência de valores entre usuários.
         public async Task<TransactionResponse> TransferAsync(TransferDTO transferDto, Guid senderId)
         {
             try
             {
+                // Obtém o remetente da transferência.
                 var sender = await _context.Users
                     .Where(u => u.Id == senderId)
                     .FirstOrDefaultAsync();
@@ -95,6 +101,7 @@ namespace transfer_bank.Services
                     throw new TransferException("Remetente não encontrado.");
                 }
 
+                // Obtém o receptor da transferência.
                 var receiver = await _context.Users
                     .Where(u => u.Id == transferDto.ReceiverId)
                     .FirstOrDefaultAsync();
@@ -116,6 +123,7 @@ namespace transfer_bank.Services
                 sender.Balance -= transferDto.Amount;
                 receiver.Balance += transferDto.Amount;
 
+                // Cria a transação de transferência.
                 var transaction = new Transaction
                 {
                     Id = Guid.NewGuid(),
@@ -131,6 +139,7 @@ namespace transfer_bank.Services
                 _context.Transactions.Add(transaction);
                 await _context.SaveChangesAsync();
 
+                // Cria a resposta com os detalhes da transação.
                 var transactionResponse = new TransactionResponse()
                 {
                     Id = transaction.Id,
@@ -163,16 +172,20 @@ namespace transfer_bank.Services
             }
         }
 
+        // Reverte uma transação já realizada.
         public async Task<TransactionResponse> ReverseTransactionAsync(Guid transactionId, int page = 1, int pageSize = 10)
         {
+            // Obtém a transação original.
             var originalTransaction = await _context.Transactions
                 .FirstOrDefaultAsync(t => t.Id == transactionId);
 
             if (originalTransaction == null || originalTransaction.IsReversed)
                 throw new ArgumentException("Transação não encontrada ou já revertida");
 
+            // Cria um DTO para a reversão da transação.
             var transferDto = new TransferDTO(originalTransaction.SenderId, originalTransaction.Amount, PaymentMethod.Reversal);
 
+            // Chama o método para transferir (reverter a transação).
             var reversalTransaction = await TransferAsync(transferDto, originalTransaction.ReceiverId);
 
             originalTransaction.IsReversed = true;
@@ -183,19 +196,23 @@ namespace transfer_bank.Services
             return reversalTransaction;
         }
 
+        // Retonar uma lista de todas transações de um usuário com paginação.
         public async Task<List<TransactionResponse>> GetUserTransactionsAsync(Guid userId, int page = 1, int pageSize = 10)
         {
+            // Obtém as transações relacionadas ao usuário, filtrando por remetente ou receptor.
             var transactions = await _context.Transactions
                 .AsNoTracking()
                 .Where(t => t.SenderId == userId || t.ReceiverId == userId)
                 .Select(t => new
                 {
+                    // Para cada transação, obtém o remetente e o receptor do banco de dados.
                     Transaction = t,
                     Sender = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == t.SenderId),
                     Receiver = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == t.ReceiverId)
                 })
                 .Select(t => new TransactionResponse
                 {
+                    // Preenche a resposta com os detalhes da transação.
                     Id = t.Transaction.Id,
                     SenderId = t.Transaction.SenderId,
                     ReceiverId = t.Transaction.ReceiverId,
@@ -217,10 +234,12 @@ namespace transfer_bank.Services
             return transactions;
         }
 
+        // Exporta um arquivo CSV com todas as transações de um usuário, com a opção de filtrar por data ou por um período específico.
         public async Task<string?> ExportAndSaveTransactionsAsync(Guid userId, string filter = "all", string? monthYear = null)
         {
             try
             {
+                // Inicia a busca pelas transações do usuário, tanto como remetente quanto como receptor.
                 var query = _context.Transactions
                     .AsNoTracking()
                     .Where(t => t.SenderId == userId || t.ReceiverId == userId);
@@ -238,6 +257,7 @@ namespace transfer_bank.Services
                     .OrderByDescending(t => t.CreatedAt)
                     .Select(t => new TransactionResponse
                     {
+                        // Faz o mapeamento dos dados para o formato esperado pela resposta.
                         Id = t.Id,
                         SenderId = t.SenderId,
                         ReceiverId = t.ReceiverId,
@@ -253,6 +273,8 @@ namespace transfer_bank.Services
                     })
                     .ToListAsync();
 
+                // Verifica se a lista de transações está vazia.
+                // Se não houver transações, retorna null.
                 if (!transactions.Any())
                 {
                     return null;
@@ -301,6 +323,7 @@ namespace transfer_bank.Services
             }
         }
 
+        // Aplica o filtro de data (mês e ano) na consulta de transações.
         private IQueryable<Transaction> ApplyMonthFilter(IQueryable<Transaction> query, string? monthYear)
         {
             if (string.IsNullOrEmpty(monthYear))
@@ -316,6 +339,7 @@ namespace transfer_bank.Services
                 throw new ArgumentException("A data fornecida não pode ser no futuro.");
             }
 
+            // Filtra as transações, selecionando apenas aquelas que correspondem ao mês e ano fornecidos.
             var filteredQuery = query.Where(t =>
                 t.CreatedAt.Month == parsedDate.Month &&
                 t.CreatedAt.Year == parsedDate.Year

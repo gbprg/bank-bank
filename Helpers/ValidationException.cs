@@ -1,5 +1,6 @@
 namespace transfer_bank.Helpers
 {
+    // Define exceções customizadas para cenários específicos
     public class ValidationException : Exception
     {
         public ValidationException(string message) : base(message) { }

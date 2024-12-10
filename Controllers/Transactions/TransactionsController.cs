@@ -110,7 +110,7 @@ namespace transfer_bank.Controllers
                 var reversedTransaction = await _transactionService.ReverseTransactionAsync(transactionId);
                 return Ok(reversedTransaction);
             }
-            catch (BankTransactionException ex) // Agora se refere à sua exceção
+            catch (BankTransactionException ex)
             {
                 _logger.LogError(ex, "Erro ao reverter transação.");
                 return BadRequest(new { Error = ex.Message });

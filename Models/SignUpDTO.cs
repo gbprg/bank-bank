@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace transfer_bank.Models
 {
+    // Representa os dados necessários para cadastrar um usuário
     public class SignUpDTO
     {
         [Required(ErrorMessage = "Email é necessário")]

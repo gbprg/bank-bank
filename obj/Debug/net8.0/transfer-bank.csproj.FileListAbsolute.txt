@@ -144,3 +144,4 @@
 /home/gbdev/my-workspace/transfer-bank/obj/Debug/net8.0/transfer-bank.genruntimeconfig.cache
 /home/gbdev/my-workspace/transfer-bank/obj/Debug/net8.0/ref/transfer-bank.dll
 /home/gbdev/my-workspace/transfer-bank/bin/Debug/net8.0/CsvHelper.dll
+/home/gbdev/my-workspace/transfer-bank/obj/Debug/net8.0/transfer-bank.sourcelink.json

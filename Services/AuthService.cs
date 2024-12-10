@@ -21,7 +21,7 @@ namespace transfer_bank.Services
       _configuration = configuration;
     }
 
-    // Cadastro de novo usuário
+    // Cadastro de um novo usuário
     public async Task<User> SignUpAsync(SignUpDTO signUpDTO)
     {
       if (string.IsNullOrWhiteSpace(signUpDTO.Name) ||
@@ -57,7 +57,7 @@ namespace transfer_bank.Services
       }
     }
 
-    // Login de usuário
+    // Login do usuário
     public async Task<string> SignInAsync(SignInDTO signInDTO)
     {
       var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == signInDTO.Email);
@@ -77,7 +77,7 @@ namespace transfer_bank.Services
         .AnyAsync(t => t.SenderId == userId || t.ReceiverId == userId);
     }
 
-    // Exclui usuário
+    // Exclui um usuário pelo seu ID, se não tiver transações
     public async Task DeleteUserAsync(Guid userId)
     {
       if (await UserHasTransactionsAsync(userId))
