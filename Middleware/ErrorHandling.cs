@@ -48,7 +48,7 @@ public class ExceptionHandlingMiddleware
 
         var response = new
         {
-            Message = ex.Message,
+            ex.Message,
             ErrorCode = "ValidationError"
         };
 
@@ -63,7 +63,7 @@ public class ExceptionHandlingMiddleware
 
         var response = new
         {
-            Message = ex.Message,
+            ex.Message,
             ErrorCode = "NotFoundError"
         };
 
@@ -78,7 +78,7 @@ public class ExceptionHandlingMiddleware
 
         var response = new
         {
-            Message = ex.Message,
+            ex.Message,
             ErrorCode = "UnauthorizedError"
         };
 
@@ -93,7 +93,7 @@ public class ExceptionHandlingMiddleware
 
         var response = new
         {
-            Message = ex.Message,
+            ex.Message,
             ErrorCode = "ArgumentError"
         };
 
